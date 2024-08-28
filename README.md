@@ -11,6 +11,7 @@ The Shared Refrigerator System is an intelligent food management system that com
 - **Raspberry Pi 4B**: Serves as the main control board, responsible for controlling the camera, display, and communication with the server.
 - **SPI Display for RPI**: Used to display real-time system status, such as success or failure messages.
 - **Raspberry Pi Camera V2**: Used to scan the barcode and expiration date on food packaging.
+![device](https://github.com/QingyaoTang/smartFridge/blob/main/1451724815937_.pic.jpg)
 
 ### Software Components
 
@@ -29,11 +30,13 @@ The Shared Refrigerator System is an intelligent food management system that com
    - The system captures images using the camera, processes them in grayscale using OpenCV to improve clarity and OCR accuracy, reads the barcode using the Pyzbar library, retrieves food information using the OpenFood API, and processes the expiration date using the PaddleOCR API.
    - If the recognition is successful, the display shows "Recognition Successful," and the data is transmitted to the app's database via MQTT.
    - If the recognition fails, the display shows "Recognition Failed, Please Add Manually in the App," and the user needs to manually add the food information in the app.
+![test](https://github.com/QingyaoTang/smartFridge/blob/main/1431724815932_.pic.jpg)
 
 2. **Food Management**:
    - Users can create multiple virtual refrigerators in the app and manage different food items within each refrigerator.
    - Clicking on a food item name takes the user to the food detail page, where they can view or edit the food name and expiration date.
    - Each food item has a "Opened" button; when clicked, the food's edible expiration date automatically updates to three days later.
+![addfood](https://github.com/QingyaoTang/smartFridge/blob/main/1531724815956_.pic.jpg)
 
 3. **Expiration Date Reminders**:
    - The app will send an email notification three days before a food item’s expiration date, reminding users to consume the food soon.
