@@ -1,0 +1,2 @@
+Application Version: ${webService.version}
+Spring Boot Version: ${spring-boot.version}

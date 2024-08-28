@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tang.appservice.mapper.FoodInfoMapper">
+
+    <resultMap type="FoodInfo" id="FoodInfoResult">
+        <result property="foodId"    column="food_id"    />
+        <result property="foodName"    column="food_name"    />
+        <result property="qualityTime"    column="quality_time"    />
+        <result property="ownerName"    column="owner_name"    />
+        <result property="isUsed"    column="is_used"    />
+        <result property="openTime"    column="open_time"    />
+        <result property="fridgeId"    column="fridge_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectFoodInfoVo">
+        select food_id, food_name, quality_time, owner_name, is_used, open_time, fridge_id, create_by, create_time, update_by, update_time, remark from food_info
+    </sql>
+
+    <select id="selectFoodInfoList" parameterType="FoodInfo" resultMap="FoodInfoResult">
+        <include refid="selectFoodInfoVo"/>
+        <where>
+            <if test="foodName != null  and foodName != ''"> and food_name like concat('%', #{foodName}, '%')</if>
+            <if test="qualityTime != null "> and quality_time = #{qualityTime}</if>
+            <if test="ownerName != null  and ownerName != ''"> and owner_name like concat('%', #{ownerName}, '%')</if>
+            <if test="isUsed != null "> and is_used = #{isUsed}</if>
+            <if test="openTime != null "> and open_time = #{openTime}</if>
+            <if test="fridgeId != null">
+                <choose>
+                    <when test="fridgeId != -1">
+                        and fridge_id = #{fridgeId}
+                    </when>
+                    <otherwise>
+                        and fridge_id is null
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectFoodInfoByFoodId" parameterType="Long" resultMap="FoodInfoResult">
+        <include refid="selectFoodInfoVo"/>
+        where food_id = #{foodId}
+    </select>
+
+    <insert id="insertFoodInfo" parameterType="FoodInfo" useGeneratedKeys="true" keyProperty="foodId">
+        insert into food_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="foodName != null and foodName != ''">food_name,</if>
+            <if test="qualityTime != null">quality_time,</if>
+            <if test="ownerName != null">owner_name,</if>
+            <if test="isUsed != null">is_used,</if>
+            <if test="openTime != null">open_time,</if>
+            <if test="fridgeId != null">fridge_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="foodName != null and foodName != ''">#{foodName},</if>
+            <if test="qualityTime != null">#{qualityTime},</if>
+            <if test="ownerName != null">#{ownerName},</if>
+            <if test="isUsed != null">#{isUsed},</if>
+            <if test="openTime != null">#{openTime},</if>
+            <if test="fridgeId != null">#{fridgeId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFoodInfo" parameterType="FoodInfo">
+        update food_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="foodName != null and foodName != ''">food_name = #{foodName},</if>
+            <if test="qualityTime != null">quality_time = #{qualityTime},</if>
+            <if test="ownerName != null">owner_name = #{ownerName},</if>
+            <if test="isUsed != null">is_used = #{isUsed},</if>
+            <if test="openTime != null">open_time = #{openTime},</if>
+            <if test="fridgeId != null">fridge_id = #{fridgeId},</if>
+            <if test="fridgeId != null">
+                <choose>
+                    <when test="fridgeId != -1">
+                        fridge_id = #{fridgeId},
+                    </when>
+                    <otherwise>
+                        fridge_id = null,
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where food_id = #{foodId}
+    </update>
+
+    <delete id="deleteFoodInfoByFoodId" parameterType="Long">
+        delete from food_info where food_id = #{foodId}
+    </delete>
+
+    <delete id="deleteFoodInfoByFoodIds" parameterType="String">
+        delete from food_info where food_id in
+        <foreach item="foodId" collection="array" open="(" separator="," close=")">
+            #{foodId}
+        </foreach>
+    </delete>
+</mapper>

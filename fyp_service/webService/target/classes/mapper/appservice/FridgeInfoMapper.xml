@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tang.appservice.mapper.FridgeInfoMapper">
+    
+    <resultMap type="FridgeInfo" id="FridgeInfoResult">
+        <result property="fridgeId"    column="fridge_id"    />
+        <result property="fridgeName"    column="fridge_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectFridgeInfoVo">
+        select fridge_id, fridge_name, create_by, create_time, update_by, update_time, remark from fridge_info
+    </sql>
+
+    <select id="selectFridgeInfoList" parameterType="FridgeInfo" resultMap="FridgeInfoResult">
+        <include refid="selectFridgeInfoVo"/>
+        <where>  
+            <if test="fridgeName != null  and fridgeName != ''"> and fridge_name like concat('%', #{fridgeName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectFridgeInfoByFridgeId" parameterType="Long" resultMap="FridgeInfoResult">
+        <include refid="selectFridgeInfoVo"/>
+        where fridge_id = #{fridgeId}
+    </select>
+        
+    <insert id="insertFridgeInfo" parameterType="FridgeInfo" useGeneratedKeys="true" keyProperty="fridgeId">
+        insert into fridge_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fridgeName != null and fridgeName != ''">fridge_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fridgeName != null and fridgeName != ''">#{fridgeName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFridgeInfo" parameterType="FridgeInfo">
+        update fridge_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fridgeName != null and fridgeName != ''">fridge_name = #{fridgeName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where fridge_id = #{fridgeId}
+    </update>
+
+    <delete id="deleteFridgeInfoByFridgeId" parameterType="Long">
+        delete from fridge_info where fridge_id = #{fridgeId}
+    </delete>
+
+    <delete id="deleteFridgeInfoByFridgeIds" parameterType="String">
+        delete from fridge_info where fridge_id in 
+        <foreach item="fridgeId" collection="array" open="(" separator="," close=")">
+            #{fridgeId}
+        </foreach>
+    </delete>
+</mapper>
