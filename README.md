@@ -3,7 +3,7 @@
 ## Project Overview
 
 The Shared Refrigerator System is an intelligent food management system that combines hardware devices with a mobile application. The system utilizes a Raspberry Pi 4B, SPI Display for RPI, Raspberry Pi Camera V2, and a mobile app developed with Flutter to enable smart food management. Users can scan barcodes and expiration dates on food packaging through the system, and the data is stored in virtual refrigerators within the mobile app, helping users manage food efficiently and reduce waste.
-![dfc](
+- **![dfc](https://github.com/QingyaoTang/smartFridge/blob/main/Screenshot%202024-08-28%20at%2009.41.44.png)
 ## System Architecture
 
 ### Hardware Components
